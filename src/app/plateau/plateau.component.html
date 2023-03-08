@@ -1,0 +1,19 @@
+<h2 *ngIf="turn == 'Player1'">
+    Turn of Player 1 <br><br> You are playing   <span class="dotPlayer1"></span>
+</h2>
+<h2 *ngIf="turn == 'Player2'">
+    Turn of Player 2 <br><br> You are playing   <span class="dotPlayer2"></span>
+</h2>
+
+<table>
+    <tr *ngFor="let ligne of board; index as i; trackBy: trackByIndex">
+        <td *ngFor="let case of ligne; index as j; trackBy: trackByIndex" 
+        [class.canPlay] = "playable[i][j]"
+        [class.Player1] = " case === 'Player1' "
+        [class.Player2] = " case === 'Player2' "
+        (click) = "PLAY( [i, j] )"
+        >
+        <div></div>
+        </td>
+    </tr>
+</table>

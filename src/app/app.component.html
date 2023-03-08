@@ -1,4 +1,42 @@
-<pre>
-Utilisez la console de dévéloppement pour interagir avec le service
-(pressez contrôle-majuscule-i).
-</pre>
+<!-- <pre>{{gs | json}}</pre> -->
+
+<section *ngIf="etat | async as E">
+    <app-plateau [board]="E.gs.board"
+                 [playable]="E.canPlayHere"
+                 [turn] = "E.gs.turn"
+                 (play) = "playHere($event)">
+    </app-plateau>
+
+<hr/>
+Historique de la partie
+<ul>
+    <!-- ep : Etat précédent -->
+    <li *ngFor="let ep of historique | async">
+        <app-plateau [board]="ep.gs.board"
+                     [playable]="ep.canPlayHere"
+                     [turn] = "ep.gs.turn">
+        </app-plateau>
+    </li>
+</ul>
+
+    <table>
+        <tr *ngFor="let ligne of E.gs?.board; index as i">
+            <td *ngFor="let case of ligne; index as j" 
+                [class.canPlayHere]="E.canPlayHere[i][j]"
+                (click)="playHere( [i, j] )">
+                {{caseToString(case)}}
+            </td>
+        </tr>
+    </table>
+
+    <pre>{{E.strBoard}}</pre>
+    <ul>
+
+        <li *ngFor="let coup of E.Lplay; index as i">
+            <button (click)=" playHere(coup) ">PLAY</button>
+            Le coup {{i + 1}} est jouable aux coordonnées {{coup | json}}
+
+        </li>
+
+    </ul>
+</section>
